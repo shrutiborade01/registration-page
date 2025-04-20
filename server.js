@@ -6,7 +6,7 @@ const app = express();
 const PORT = 3000;
 
 // Connect to MongoDB
-mongoose.connect('mongodb://127.0.0.1:27017/mongodb://localhost:27017/myproject').then(() => console.log("MongoDB Connected"))
+mongoose.connect('mongodb://localhost:27017/myproject').then(() => console.log("MongoDB Connected"))
   .catch(err => console.log(err));
 
 // Define User Schema
@@ -22,10 +22,11 @@ const User = mongoose.model('User', userSchema);
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static('public'));
 app.set('view engine', 'ejs');
+app.use(express.static(__dirname));
 
 // Routes
 app.get('/', (req, res) => {
-    res.render('index');
+  res.sendFile(path.join(__dirname, 'index.html'));
 });
 
 app.post('/register', async (req, res) => {
